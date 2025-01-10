@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CBS.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @* Remove any extra scoped CSS files for this layout *@
+</head>
+
+<body>
+    <!-- Loader HTML -->
+    <div id="loader" class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "7000",
+            "extendedTimeOut": "1000",
+        };
+
+        function showSuccessNotification(message) {
+            toastr.success(message);
+        }
+
+        function showErrorNotification(message) {
+            toastr.error(message);
+        }
+
+        $(document).ready(function () {
+            $(document).ajaxStart(function () {
+                $("#loader").css('display', 'flex'); // Use flex to show the loader
+            }).ajaxStop(function () {
+                $("#loader").hide();
+            });
+        });
+    </script>
+
+    <header class="header">
+        <div class="navbar">
+            <p><img src="~/images/logo2.png" alt="Logo" style="height: 45px;" />MULTIPURPOSE COOPERATIVE</p>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <p class="text-center">© @DateTime.Now.Year ACDI. All rights reserved.</p>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

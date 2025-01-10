@@ -1,0 +1,141 @@
+﻿@using CBS.Models.Shared;
+@model PaginatedList<RemittanceUploadReportsModel>;
+
+@{
+    ViewData["Title"] = "Remittance";
+}
+
+<div style="margin: 20px;">
+    <div class="card">
+        <div class="grid-container">
+            <div class="grid-item">
+                <fieldset>
+                    <legend>Remittance</legend>
+                </fieldset>
+            </div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item">
+                <div>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <label for="file" class="form-label">Choose file</label>
+                        <input type="file" name="file" id="file" class="form-control" accept=".xls,.xlsx" />
+                        <button type="submit" class="btn btn-primary" style="margin-top:5px;">
+                            <i class="fa fa-upload"></i> Upload
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin: 20px;">
+    <div class="card">
+        <div style="padding: 20px;">
+             <div class="grid-container">
+            <div class="grid-item">
+                <fieldset>
+                    <legend>Remittance List</legend>
+                </fieldset>
+            </div>
+        </div>
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        @foreach (var prop in typeof(RemittanceUploadReportsModel).GetProperties())
+                        {
+                            <th>@prop.Name</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                @foreach (var prop in typeof(RemittanceUploadReportsModel).GetProperties())
+                                {
+                                    <td>@prop.GetValue(item)</td>
+                                }
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="@typeof(RemittanceUploadReportsModel).GetProperties().Length">No data available</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <ul class="pagination justify-content-center">
+                @if (Model.HasPreviousPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Remittance", new { page = 1 })">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Remittance", new { page = Model.PageIndex - 1 })">Previous</a>
+                    </li>
+                }
+                @if (Model.HasNextPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Remittance", new { page = Model.PageIndex + 1 })">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Remittance", new { page = Model.TotalPages })">Last</a>
+                    </li>
+                }
+                <li class="page-item disabled">
+                    <span class="page-link">Page @Model.PageIndex of @Model.TotalPages</span>
+                </li>
+            </ul>
+        </div>
+        </div>
+       
+    </div>
+</div>
+
+<script>
+    $('#uploadForm').submit(function (e) {
+        e.preventDefault();
+
+        var fileInput = $('#file')[0].files[0]; // Get the file object
+        if (!fileInput) {
+            showErrorNotification('Please choose a file to upload.');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('file', fileInput); // Append the file to the FormData object
+
+        $.ajax({
+            url: '/Remittance/UploadFile', // Your correct upload endpoint for the file
+            type: 'POST',
+            data: formData,
+            contentType: false, // Important for file upload
+            processData: false, // Important for file upload
+            success: function (response) {
+                if (response.IsSuccessful) {
+                    showSuccessNotification(response.Message);
+                    $('#file').val(''); 
+
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000); 
+                } else {
+                    showErrorNotification(response.Message);
+                }
+            },
+            error: function () {
+                showErrorNotification('An error occurred while uploading the file.');
+            }
+        });
+    });
+</script>

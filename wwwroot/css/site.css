@@ -1,0 +1,119 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 20px;
+  max-width: 100%;
+}
+
+.header {
+    background-color: #2F58CD; /* Primary color */
+    padding: 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid #0056b3;
+    height: 70px; /* Adjust height as needed */
+    align-items: center;
+}
+
+.header .navbar {
+    display: flex;
+    align-items: center;
+}
+
+.header .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.card {
+    width: 100%;
+    border: 1px solid #ddd; 
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.2s; 
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    padding: 10px;
+}
+
+.grid-item {
+    font-size: 20px;
+}
+
+#loader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(128, 128, 128, 0.8); /* Gray background with slight transparency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: none; /* Hide by default */
+}
+
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 5px solid #000;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.footer {
+    height: 45px; /* Adjust height as needed */
+    background-color: #2F58CD; /* Optional: Add background color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 5px 10px;
+}
+
+p {
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+}
+
+legend {
+    font-weight: bold;
+}

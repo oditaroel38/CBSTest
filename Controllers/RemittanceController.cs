@@ -148,6 +148,29 @@ namespace CBS.Controllers
 
         }
 
+        public async Task PayArrearsTransactionTest(string jsonData)
+        {
+            var parameters = new DynamicParameters();
+            try
+            {
+                using var connection = new SqlConnection(_connectionString);
+                parameters.Add("@json", jsonData);
+                parameters.Add("@IsSuccessful", 1);
+                parameters.Add("@Message", "Test");
+                await connection.ExecuteAsync(
+                    "dbo.SavingInterestTransactions",
+                    parameters,
+                    commandType: CommandType.StoredProcedure,
+                    commandTimeout: 0
+                );
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file)
